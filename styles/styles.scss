@@ -1,0 +1,148 @@
+a{
+    color: rgba(0,0,0,0.8);
+    transition: color 400ms ease-in-out;
+}
+a:hover{
+    color: rgba(32, 18, 18, 1);
+    text-decoration: none;
+    cursor: pointer;
+}
+.dropdown-menu{
+    top: 55px;
+    padding: 0;
+    border-radius: 0;
+    border: 0;
+    animation: fadeIn ease-out 350ms;
+
+}
+@keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+.dropdown-menu > a{
+    color: #6c757d;
+    padding: 10px;
+    background-color: rgba(249, 249, 249, 1);  
+    transition: all 350ms ease-in-out;
+}
+.dropdown-menu > a:active{
+    background-color: rgba(249, 249, 249, 1);
+    color: rgba(0,0,0,0.8);
+}
+.dropdown-menu > a:hover{
+    background-color: rgba(243, 243, 243, 1);
+    color: rgba(0,0,0,0.8);
+}
+.navbar-toggler, .navbar-toggler:active{
+    border: 0 !important; 
+    outline: 0 !important;
+    background-color: rgba(249, 249, 249, 1);
+    transition: all 350ms ease-in-out;
+}
+.navbar-toggler:hover{
+    background-color: rgba(243, 243, 243, 1);
+}
+.fake{
+    background-color: red;
+    height: 66px;
+}
+
+
+
+//jumbotron
+.jumbotron{
+    background-image: url('/Banner.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 75vh;
+   }
+
+
+   .customUI{
+    padding: 10px 60px 40px 60px; 
+    border: rgb(212, 212, 212) 1px solid !important;
+    border-radius: 1px; 
+    background: rgba(255, 252, 252, 0.9);
+    color: rgb(63, 63, 63); 
+    box-shadow: 2px 2px 10px 5px rgb(173, 173, 173);
+  }
+  .btn-group{
+    padding-top: 20px;
+    button:first-child{
+      margin-right: 10px;
+    }
+  }
+  .card-bootle{
+    box-shadow: none !important;
+    text-align: center;
+  }
+  
+  .react-confirm-alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  background: rgba(255, 255, 255, 0.9); 
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+  opacity: 0;
+  -webkit-animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
+  -moz-animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
+  -o-animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
+  animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
+  }
+  
+  @-webkit-keyframes react-confirm-alert-fadeIn {
+  from {
+  opacity: 0;
+  }
+  to {
+  opacity: 1;
+  }
+  }
+  
+  @-moz-keyframes react-confirm-alert-fadeIn {
+  from {
+  opacity: 0;
+  }
+  to {
+  opacity: 1;
+  }
+  }
+  
+  @-o-keyframes react-confirm-alert-fadeIn {
+  from {
+  opacity: 0;
+  }
+  to {
+  opacity: 1;
+  }
+  }
+  
+  @keyframes react-confirm-alert-fadeIn {
+  from {
+  opacity: 0;
+  }
+  to {
+  opacity: 1;
+  }
+  }
+
+.card-img-top{
+    height: 20vw;
+}
+.hide{ display: none !important }
+@media only screen and (max-width: 768px) {
+    .card-img-top{
+        height: 80%;
+    }
+  }
+
