@@ -56,7 +56,7 @@ const Contact = () => {
     }
     return (
         <>
-            <div className="row my-5 justify-content-around">
+            <div className="row my-5 justify-content-around px-3 px-md-0">
                 <div className="col-md-4">
                     <h1>CONTACT ME</h1>
                     <h2 className="grey-text" style={{color: "grey"}}>IF YOU HAVE SOME QUESTIONS ABOUT MY MINIATURE BOTTLE</h2>
@@ -82,7 +82,6 @@ const Contact = () => {
                     <button className="btn btn-danger" type="submit" name="action">SEND</button>
                 </form>
             </div>
-
         </>
     )
 }

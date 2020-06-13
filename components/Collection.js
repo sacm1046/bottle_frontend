@@ -9,26 +9,21 @@ const Collection = () => {
         actions.GETBottles('/bottles/category/1/0')
     }, [actions])
     return (
-        <>
-            <div className="row my-5">
-                <div className="container text-center">
-                    <h3>COLLECTION</h3>
-                </div>
-            </div>
-            <div className="row">
+        <div className="container">
+            <h3 className="text-center mb-4">COLLECTION</h3>
+            <div className="row mx-auto">
                 <Gallery limit={4} array={store.images} />
             </div>
-            <div className="row my-5">
-                <div className="container text-center">
-                    <Link href="/mycollection"> 
-                    <button 
-                    className="btn btn-danger" 
-                    onClick={() => actions.handleRoute('/bottles/category/1/0', {})}>SEE ALL</button>
-                    </Link>
-                </div>
+            <div className="row justify-content-center my-5">
+                <Link href="/collection">
+                    <a
+                        className="btn btn-danger "
+                        onClick={() => actions.handleRoute('/bottles/category/1/0', {})}>SEE ALL</a>
+                </Link>
             </div>
 
-        </>
+
+        </div>
     )
 }
 

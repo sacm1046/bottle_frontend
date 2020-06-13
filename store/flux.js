@@ -21,15 +21,41 @@ const getState = ({ getStore, getActions, setStore }) => {
             route: '',
             images: [],
             imagesExchange: [],
-            bottlesupadate: [],
+            ln_selection: false, //false=spanish - true=english
+            ln: {
+                navbar_title_home: { en:'HOME',es:'INICIO'},
+                navbar_title_tarde_exchange: { en:'Trade & Exchange',es:'Intercambio'},
+                navbar_title_categories: { en:'Categories',es:'Categorías'},
+                navbar_all: {en: "ALL", es: "TODAS"},
+                navbar_title_contact: { en:'Contact',es:'Contacto'},
+                home_page_collection_title: { en:'COLLECTION',es:'COLECCIÓN'},
+                home_button_see_all: { en:'SEE ALL',es:'VER TODO'},
+                home_page_exchange_title: { en:'EXCHANGE',es:'INTERCAMBIO'},
+                home_contact_me_first_h1: { en:'CONTACT ME',es:'CONTÁCTAME'},
+                home_contact_me_h2: { en:'IF YOU HAVE SOME QUESTIONS ABOUT MY MINIATURE BOTTLE',es:'SI TIENE CONSULTAS SOBRE MI COLECCIÓN DE BOTELLAS '},
+                home_contact_me_second_h1: { en:'COLLECTION',es:'EN MINIATURA'},
+                home_contact_name: {en: "Name", es: "Nombre"},
+                home_contact_phone: {en: "Telephone", es: "Teléfono"},
+                home_contact_email: {en: "Email", es: "Email"},
+                home_contact_message: {en: "Message", es: "Mensaje"},
+                home_contact_button_send: {en: "SEND", es: "ENVIAR"},
+                our_brand: {en: 'Developed by Codeme - copyright 2020', es: 'Desarrollado por Codeme - copyright 2020'},
+                link_from_navbar: {en: 'MY COLLECTION', es: 'MI COLECCIÓN'},
+            }
         },
         actions: {
+            change_language: condition => {
+                setStore({
+                    ln_selection: condition
+                })
+            },
             handleChange: e => {
                 setStore({ [e.target.name]: e.target.value })
             },
             handleRoute: (route, object) => {
                 sessionStorage.setItem('route', route)
                 sessionStorage.setItem('currentCategory', JSON.stringify(object))
+
             },
             isRoute: () => {
                 sessionStorage.getItem('route') && setStore({
@@ -68,14 +94,14 @@ const getState = ({ getStore, getActions, setStore }) => {
             noAuth: (route) => {
                 Router.push(route)
             },
-            logout: (route) => {
+            logout: () => {
                 setStore({
                     isAuth: false,
                     currentAdmin: {}
                 })
                 sessionStorage.removeItem('isAuth')
                 sessionStorage.removeItem('currentAdmin')
-                Router.push(route)
+                Router.push('/')
             },
             isAuthenticated: () => {
                 if (sessionStorage.getItem('currentAdmin') && sessionStorage.getItem('isAuth')) {
@@ -130,7 +156,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
             //Bottles Fetch Methods//////////////////////////
             GETBottlesExchange: async route => {
-                
+
                 const store = getStore()
                 const res = await fetch(`${store.path}${route}`)
                 const data = await res.json()
@@ -140,6 +166,34 @@ const getState = ({ getStore, getActions, setStore }) => {
                     setStore({ exchange: data, error: "" })
                     getActions().create(store.exchange, 'imagesExchange')
                 }
+            },
+            GETBottlesUpdate: async (route) => {
+                const store = getStore()
+                const res = await fetch(`${store.path}${route}`)
+                const data = await res.json()
+                if (data.error) {
+                    setStore({ error: data.error })
+                } else {
+                    setStore({ bottlesupadate: data, error: "" })
+                }
+            },
+            PUTBottleUpdate: async (id, route) => {
+                const store = getStore()
+                const oldroute = route
+                const newroute = oldroute.replace('http://localhost:5000', 'https://bottlecollection.herokuapp.com')
+                console.log(newroute)
+                const res = await fetch(`${store.path}/bottles/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'content-Type': 'application/json',
+                        'Authorization': `Bearer ${store.currentAdmin.access_token}`
+                    },
+                    body: JSON.stringify({
+                        image: newroute,
+                    })
+                })
+                const data = await res.json()
+                console.log(data)
             },
             GETBottles: async (route, object) => {
                 const store = getStore()
@@ -184,9 +238,9 @@ const getState = ({ getStore, getActions, setStore }) => {
                     setStore({
                         country: "",
                         country_esp: ""
-                        
+
                     })
- 
+
                 }
             },
             DELETEBottle: async (route) => {

@@ -1,24 +1,21 @@
-import { useEffect, useContext } from 'react';
-import { Context } from '../store/appContext'
+import { useEffect} from 'react';
 import Gallery from 'react-grid-gallery'
 
 const ArtGallery = props => {
-    const { actions } = useContext(Context)
-    const tagStyle = { 
-        color: "rgba(255, 255, 255, 1)", 
-        fontWeight:"600",
-        fontSize: "13px", 
+    const tagStyle = {
+        color: "rgba(255, 255, 255, 1)",
+        fontWeight: "600",
+        fontSize: "13px",
         textTransform: "uppercase",
-        backgroundColor: "rgba(0, 0, 0, .5)", 
+        backgroundColor: "rgba(0, 0, 0, .5)",
         padding: "2px",
         borderRadius: "2px"
-        
-    } 
+    }
     useEffect(()=>{
         
-    },[actions])
+    },[])
     return(
-            <div className="container-fluid" >
+            <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
                         <div>
@@ -38,7 +35,5 @@ const ArtGallery = props => {
             </div>
         )
     }
-
-
 
 export default ArtGallery

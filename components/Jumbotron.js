@@ -2,8 +2,7 @@
 const Jumbotron = () => {
     return (
         <>
-            <div className="jumbotron jumbotron-fluid"></div>
-           
+            <div className="jumbotron jumbotron-fluid"></div> 
         </>
     )
 }

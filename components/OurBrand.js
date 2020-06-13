@@ -3,11 +3,7 @@
 const OurBrand = () => {
     return (
         <>
-            <div className="row pt-2" style={{backgroundColor: "#f2f2f2", margin: "0"}}>
-                <div className="container text-center">
-                    <p>DEVELOPED BY CODEME.CL</p>
-                </div>
-            </div>
+            <p className="text-center py-2" style={{ backgroundColor: "#f2f2f2", margin: "0" }}>Developed by Codeme - copyright 2020 </p>
         </>
     )
 }

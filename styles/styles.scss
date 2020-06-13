@@ -1,63 +1,11 @@
-a{
-    color: rgba(0,0,0,0.8);
-    transition: color 400ms ease-in-out;
-}
-a:hover{
-    color: rgba(32, 18, 18, 1);
-    text-decoration: none;
-    cursor: pointer;
-}
-.dropdown-menu{
-    top: 55px;
-    padding: 0;
-    border-radius: 0;
-    border: 0;
-    animation: fadeIn ease-out 350ms;
-
-}
-@keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-}
-.dropdown-menu > a{
-    color: #6c757d;
-    padding: 10px;
-    background-color: rgba(249, 249, 249, 1);  
-    transition: all 350ms ease-in-out;
-}
-.dropdown-menu > a:active{
-    background-color: rgba(249, 249, 249, 1);
-    color: rgba(0,0,0,0.8);
-}
-.dropdown-menu > a:hover{
-    background-color: rgba(243, 243, 243, 1);
-    color: rgba(0,0,0,0.8);
-}
-.navbar-toggler, .navbar-toggler:active{
-    border: 0 !important; 
-    outline: 0 !important;
-    background-color: rgba(249, 249, 249, 1);
-    transition: all 350ms ease-in-out;
-}
-.navbar-toggler:hover{
-    background-color: rgba(243, 243, 243, 1);
-}
-.fake{
-    background-color: red;
-    height: 66px;
-}
-
-
-
 //jumbotron
 .jumbotron{
-    background-image: url('/Banner.png');
+    background-image: url('../Banner.png');
     background-size: cover;
     background-repeat: no-repeat;
     height: 75vh;
+    width: 100vw;
    }
-
-
    .customUI{
     padding: 10px 60px 40px 60px; 
     border: rgb(212, 212, 212) 1px solid !important;
@@ -68,15 +16,14 @@ a:hover{
   }
   .btn-group{
     padding-top: 20px;
-    button:first-child{
-      margin-right: 10px;
-    }
+      button:first-child{
+        margin-right: 10px;
+      }
   }
   .card-bootle{
     box-shadow: none !important;
     text-align: center;
   }
-  
   .react-confirm-alert-overlay {
   position: fixed;
   top: 0;
@@ -101,48 +48,60 @@ a:hover{
   }
   
   @-webkit-keyframes react-confirm-alert-fadeIn {
-  from {
-  opacity: 0;
-  }
-  to {
-  opacity: 1;
-  }
+    from {
+    opacity: 0;
+    }
+    to {
+    opacity: 1;
+    }
   }
   
   @-moz-keyframes react-confirm-alert-fadeIn {
-  from {
-  opacity: 0;
-  }
-  to {
-  opacity: 1;
-  }
+    from {
+    opacity: 0;
+    }
+    to {
+    opacity: 1;
+    }
   }
   
   @-o-keyframes react-confirm-alert-fadeIn {
-  from {
-  opacity: 0;
-  }
-  to {
-  opacity: 1;
-  }
+    from {
+    opacity: 0;
+    }
+    to {
+    opacity: 1;
+    }
   }
   
   @keyframes react-confirm-alert-fadeIn {
-  from {
-  opacity: 0;
-  }
-  to {
-  opacity: 1;
-  }
+    from {
+    opacity: 0;
+    }
+    to {
+    opacity: 1;
+    }
   }
 
-.card-img-top{
-    height: 20vw;
-}
-.hide{ display: none !important }
-@media only screen and (max-width: 768px) {
+  .card-img-top{
+      height: 20vw;
+  }
+
+  .hide{ display: none !important }
+
+  @media only screen and (max-width: 768px) {
     .card-img-top{
         height: 80%;
     }
   }
 
+  html{
+    scroll-behavior: smooth;
+  }
+ 
+  #testa{
+    background-image: url('../eanglish.png');
+    height: 20px;
+    width: 20px;
+  }
+  

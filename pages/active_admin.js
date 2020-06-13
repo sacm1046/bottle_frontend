@@ -2,14 +2,9 @@ import { useEffect, useContext } from 'react'
 import { Context } from '../store/appContext'
 import { confirmAlert } from 'react-confirm-alert'
 
-
-
-
-
 const AciveAdmin = props => {
     const { store, actions } = useContext(Context)
-
-
+    
     useEffect(() => {
         actions.isAuthenticated()
         if (!store.isAuth) {
@@ -17,8 +12,10 @@ const AciveAdmin = props => {
         } else {
             actions.GETBottles('/bottles/category/1/0')
             actions.GETCategories('/categories')
+            actions.GETBottlesUpdate('/bottles/category/1/1')
         }
     }, [actions, store.isAuth])
+
     return (
         <>
             <div className="container">
@@ -35,7 +32,7 @@ const AciveAdmin = props => {
                             }
                         </div>
                     </div>
-                    <button className="btn btn-info" onClick={() => actions.logout('/')}>LOGOUT
+                    <button className="btn btn-info" onClick={() => actions.logout()}>LOGOUT
                 </button>
                 </div>
 
@@ -44,23 +41,13 @@ const AciveAdmin = props => {
                     <div className="col-md-6">
                         <h2>Create Collection</h2>
                         <div>
-                            {/*  <div className="input-group mb-3">
-                                <div className="custom-file">
-                                    <input type="file" className="custom-file-input" id="input" aria-describedby="inputGroupFileAddon03" />
-                                    <label className="custom-file-label" htmlFor="input">Choose file</label>
-                                </div>
-                            </div> */}
-
-
-
-
+   
                             <form>
                                 <div className="form-group">
                                     <label htmlFor="file">Example file input</label>
                                     <input type="file" id="file" className="form-control-file" />
                                 </div>
                             </form>
-
 
                             <div className="form-group">
                                 <label htmlFor="country">Country English</label>
@@ -161,6 +148,20 @@ const AciveAdmin = props => {
                     </div>
                 </div>
             </div>
+          {/*   <div>
+                <ul>
+                    {
+                        store.bottlesupadate.length > 0 && store.bottlesupadate.map((bottle) => {
+                            return (
+                                <>
+                                    <li>{bottle.image}</li>
+                                    <button onClick={() => actions.PUTBottleUpdate(bottle.id, bottle.image)}>Update</button>
+                                </>
+                            )
+
+                        })}
+                </ul>
+            </div> */}
         </>
     )
 }

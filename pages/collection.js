@@ -1,8 +1,7 @@
 import { useEffect, useContext } from 'react'
 import { Context } from '../store/appContext'
-import OurBrand from '../components/OurBrand'
 import Gallery from '../components/Gallery'
-import Container from '../components/Container'
+import Layout from '../components/Layout'
 
 const FilterBottles = () => {
     const { actions, store } = useContext(Context)
@@ -11,19 +10,15 @@ const FilterBottles = () => {
         actions.GETBottles(store.route, store.currentCategory)
     }, [actions, store])
     return (
-        <Container>
-            <div className="row mt-3 justify-content-center">
-                <h2>MY COLLECTION</h2>    
-            </div>
+        <Layout>
+            <h2 className="text-center my-4">MY COLLECTION</h2>
             <div className="container">
-                <div className="row justify-content-center">
-                    <h4>{JSON.stringify(store.currentCategory) === '{}' ? "ALL" : store.currentCategory.name}</h4>
-                </div>
+                <h4 className="text-center">{JSON.stringify(store.currentCategory) === '{}' ? "ALL" : store.currentCategory.name}</h4>
                 <div className="row">
                     <Gallery limit={1000} array={store.images} />
                 </div>
             </div>
-        </Container>
+        </Layout>
     )
 }
 export default FilterBottles
