@@ -3,22 +3,21 @@ import Collection from '../components/Collection'
 import Exchange from '../components/Exchange'
 import Contact from '../components/Contact'
 import Layout from '../components/Layout'
+import Head from 'next/head'
 
 const Index = () => {
     return (
         <Layout>
+            <Head>
+                <title>Miniature Bottle Collection</title>
+            </Head>
+            <Jumbotron />
 
-            <div className="container-fluid">
-                <div className="row justify-content-center">
-                    <Jumbotron />
-                </div>
-            </div>
-
-            <div className="container-fluid p-0 m-0 py-4">
+            <div className=" p-0 m-0 py-4">
                 <Collection />
             </div>
 
-            <div className="container-fluid p-0 m-0 py-4" style={{ backgroundColor: "#f2f2f2" }}>
+            <div className=" p-0 m-0 py-4" style={{ backgroundColor: "#f2f2f2" }}>
                 <Exchange />
             </div>
 
@@ -27,8 +26,9 @@ const Index = () => {
                     <Contact />
                 </div>
             </div>
-            
+
         </Layout>
+
     )
 }
 

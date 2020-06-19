@@ -1,19 +1,18 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { Context } from '../store/appContext'
-import Link from 'next/link'
 
 const Navigation = () => {
-    const [home, setHome] = useState(true)
     const { actions, store } = useContext(Context)
     useEffect(() => {
-        actions.GETCategories('/categories')
+        actions.GETCategories('/categories/1')
+        actions.isSelectedLanguage()
     }, [actions])
     return (
         <>
             <div className="fake">
                 <style jsx>{`
                     .fake{
-                        background-color: red;
+                        background-color: white;
                         height: 66px;
                     }
                 `}</style>
@@ -39,49 +38,43 @@ const Navigation = () => {
                     <div className="collapse navbar-collapse" id="navbarcollapseid" >
                         <ul className="navbar-nav d-lg-none">
 
+                            {/* Language options */}
+                            <li className="nav-item d-flex justify-content-around p-0 my-3">
+                                <button onClick={() => actions.change_language(true)} type="button" className={`rounded-pill btn ${store.ln_selection ? 'btn-danger border-0' : 'btn-outline-secondary'}`}>es</button>
+                                <button onClick={() => actions.change_language(false)} type="button" className={`rounded-pill btn ${!store.ln_selection ? 'btn-danger border-0' : 'btn-outline-secondary'}`}>en</button>
+                            </li>
+
                             <li className="nav-item">
-                                <Link href="/collection">
-                                    <a className="nav-link" onClick={() => actions.handleRoute(`/bottles/category/1/1`, { id: 1, name: "EXCHANGE/TRADE" })}>Trade<small> & </small>Exchange</a>
-                                </Link>
+                                <a className="nav-link" href="/collection" onClick={() => actions.handleRoute(`/bottles/category/1/1`, { id: 1, name: "EXCHANGE/TRADE", name_esp:"INTECAMBIO" })}>{store.ln_selection ? store.ln.navbar_title_tarde_exchange.es : store.ln.navbar_title_tarde_exchange.en}</a>
                             </li>
 
 
                             <li className="nav-item">
                                 {/* eslint-disable-next-line */}
-                                <a className="nav-link" data-toggle="collapse" data-target="#dropdown">Categories</a>
+                                <a className="nav-link" data-toggle="collapse" data-target="#dropdown">{store.ln_selection ? store.ln.navbar_title_categories.es : store.ln.navbar_title_categories.en}</a>
                                 <div className="collapse navbar-collapse" id="dropdown">
-                                    <ul className="navbar-nav" style={{ overflowY: "auto", height: "300px" }}>
+                                    <ul className="navbar-nav" style={{ overflowY: "auto", height: "200px" }}>
                                         <li className="nav-item">
-                                            <Link href="/collection">
-                                                <a className="nav-link" onClick={() => actions.handleRoute('/bottles/category/1/0', {})}>All</a>
-                                            </Link>
+                                            <a className="nav-link" href="/collection" onClick={() => actions.handleRoute('/bottles/category/1/0', {})}>{store.ln_selection ? store.ln.navbar_all.es : store.ln.navbar_all.en}</a>
                                         </li>
-
                                         {
-                                            store.categories.length > 0 && store.categories.map((category) => {
-                                                if (category.name !== "EXCHANGE/TRADE") {
-                                                    return (
-                                                        <li className="nav-item" key={category.id}>
-                                                            <Link href="/collection">
-                                                                <a className="nav-link" onClick={() => actions.handleRoute(`/bottles/category/${category.id}/1`, category)}>{category.name}</a>
-                                                            </Link>
-                                                        </li>
-                                                    )
-                                                }
-                                                return null
-                                            }
-                                            )
+                                            store.categories.length > 0 && store.categories.map((category) => (
+                                                <li className="nav-item" key={category.id}>
+                                                    <a className="nav-link" href="/collection" onClick={() => actions.handleRoute(`/bottles/category/${category.id}/1`, category)}>{store.ln_selection ?category.name_esp:category.name}</a>
+                                                </li>
+                                            ))
                                         }
                                     </ul>
                                 </div>
                             </li>
 
-                            <li className="nav-item">
-                                <Link href="/#cont">
-                                    <a className="nav-link">Contact</a>
-                                </Link>
+
+                            <li className="nav-item" data-toggle="collapse" data-target="#navbarcollapseid">
+                                <a href="/#contact" className="nav-link">{store.ln_selection ? store.ln.navbar_title_contact.es : store.ln.navbar_title_contact.en}</a>
                             </li>
 
+
+                            
                         </ul>
                     </div>
 
@@ -89,52 +82,31 @@ const Navigation = () => {
                     {/* Desktop Menu */}
                     <ul className="navbar-nav ml-auto d-none d-lg-flex">
                         <li className="nav-item">
-                            <a className="nav-link" href="/collection" onClick={() => actions.handleRoute(`/bottles/category/1/1`, { id: 1, name: "EXCHANGE/TRADE" })}>TRADE<small> & </small>EXCHANGE</a>
+                            <a className="nav-link" href="/collection" onClick={() => actions.handleRoute(`/bottles/category/1/1`, { id: 1, name: "EXCHANGE/TRADE", name_esp:"INTERCAMBIO" })}>{store.ln_selection ? store.ln.navbar_title_tarde_exchange.es : store.ln.navbar_title_tarde_exchange.en}</a>
                         </li>
 
 
                         <li className="nav-item dropdown">
                             {/* eslint-disable-next-line */}
-                            <a className="nav-link dropdown-toggle" data-toggle="dropdown" data-target="#dropdownDesktop" id="navbarDropdown">CATEGORIES</a>
+                            <a className="nav-link dropdown-toggle" data-toggle="dropdown" data-target="#dropdownDesktop" id="navbarDropdown">{store.ln_selection ? store.ln.navbar_title_categories.es : store.ln.navbar_title_categories.en}</a>
                             <div className="dropdown-menu dropdown-menu-right">
-                                <a className="nav-link" href="/collection" onClick={() => actions.handleRoute('/bottles/category/1/0', {})}>ALL</a>
-
-
+                                <a className="nav-link" href="/collection" onClick={() => actions.handleRoute('/bottles/category/1/0', {})}>{store.ln_selection ? store.ln.navbar_all.es : store.ln.navbar_all.en}</a>
                                 {
-                                    store.categories.length > 0 && store.categories.map((category) => {
-                                        if (category.name !== "EXCHANGE/TRADE") {
-                                            return (
-                                                <a className="nav-link" href="/collection" onClick={() => actions.handleRoute(`/bottles/category/${category.id}/1`, category)}>{category.name}</a>
-                                            )
-                                        }
-                                        return null
-                                    })
+                                    store.categories.length > 0 && store.categories.map((category) => (
+                                        <a key={category.id} className="nav-link" href="/collection" onClick={() => actions.handleRoute(`/bottles/category/${category.id}/1`, category)}>{store.ln_selection ?category.name_esp:category.name}</a>
+                                    ))
                                 }
                             </div>
                         </li>
                         <li className="nav-item">
-                            <a href="/#contact" className="nav-link">CONTACT</a>
+                            <a href="/#contact" className="nav-link">{store.ln_selection ? store.ln.navbar_title_contact.es : store.ln.navbar_title_contact.en}</a>
                         </li>
 
 
                         {/* Language options */}
-                        {/* <li className="nav-item dropdown">
-
-                            <a className="nav-link dropdown-toggle" data-toggle="dropdown" data-target="#dropdownDesktop" id="navbarDropdownLanguage">
-                                <span>Lenguaje</span>
-                            </a>
-                            
-                            <div className="dropdown-menu">
-                                <a className="nav-link" href="#" onClick={()=>actions.change_language(true)}>English</a>
-                            </div>
-                            
-                            <div className="dropdown-menu">
-                                <a className="nav-link" href="#" onClick={()=>actions.change_language(false)}>Español</a>
-                            </div>
-                        </li> */}
                         <li className="nav-item align-self-center">
-                            <button onClick={()=>actions.change_language(true)} type="button" className="ml-4 rounded-pill btn btn-danger mr-1 border-0 ">es</button>
-                            <button onClick={()=>actions.change_language(false)} type="button" className="ml-1 rounded-pill btn btn-outline-secondary">en</button>
+                            <button onClick={() => actions.change_language(true)} type="button" className={`ml-4 rounded-pill btn mr-1 ${store.ln_selection ? 'btn-danger border-0' : 'btn-outline-secondary'}`}>es</button>
+                            <button onClick={() => actions.change_language(false)} type="button" className={`ml-1 rounded-pill btn ${!store.ln_selection ? 'btn-danger border-0' : 'btn-outline-secondary'}`}>en</button>
                         </li>
                     </ul>
 
@@ -144,7 +116,7 @@ const Navigation = () => {
                 {/* Styles Navbar */}
                 <style jsx>{`
                     a{
-                        color: rgba(0,0,0,0.8);
+                        color: rgba(0,0,0,1);
                         transition: color 400ms ease-in-out;
                     }
                     a:hover{

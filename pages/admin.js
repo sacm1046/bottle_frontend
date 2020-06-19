@@ -10,7 +10,7 @@ const Admin = props => {
         actions.POSTLogin()
     }
     return (
-        <Layout>o
+        <Layout>
             <div className="container">
                 <div className="row my-5 justify-content-center">
                     <div className="col-md-5">

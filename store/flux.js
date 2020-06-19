@@ -3,8 +3,9 @@ import Router from 'next/router'
 const getState = ({ getStore, getActions, setStore }) => {
     return {
         store: {
-            path: process.env.host,
-            email: process.env.email,
+            bottlesupadate:[],
+            path: process.env.HOST,
+            email: process.env.EMAIL,
             password: "",
             isAuth: false,
             error: "",
@@ -20,27 +21,31 @@ const getState = ({ getStore, getActions, setStore }) => {
             show: false,
             route: '',
             images: [],
+            images_es: [],
             imagesExchange: [],
-            ln_selection: false, //false=spanish - true=english
+            imagesExchange_es: [],
+            post_bottle_msg: "",
+            ln_selection: true, //false=spanish - true=english
             ln: {
-                navbar_title_home: { en:'HOME',es:'INICIO'},
-                navbar_title_tarde_exchange: { en:'Trade & Exchange',es:'Intercambio'},
-                navbar_title_categories: { en:'Categories',es:'Categorías'},
-                navbar_all: {en: "ALL", es: "TODAS"},
-                navbar_title_contact: { en:'Contact',es:'Contacto'},
-                home_page_collection_title: { en:'COLLECTION',es:'COLECCIÓN'},
-                home_button_see_all: { en:'SEE ALL',es:'VER TODO'},
-                home_page_exchange_title: { en:'EXCHANGE',es:'INTERCAMBIO'},
-                home_contact_me_first_h1: { en:'CONTACT ME',es:'CONTÁCTAME'},
-                home_contact_me_h2: { en:'IF YOU HAVE SOME QUESTIONS ABOUT MY MINIATURE BOTTLE',es:'SI TIENE CONSULTAS SOBRE MI COLECCIÓN DE BOTELLAS '},
-                home_contact_me_second_h1: { en:'COLLECTION',es:'EN MINIATURA'},
-                home_contact_name: {en: "Name", es: "Nombre"},
-                home_contact_phone: {en: "Telephone", es: "Teléfono"},
-                home_contact_email: {en: "Email", es: "Email"},
-                home_contact_message: {en: "Message", es: "Mensaje"},
-                home_contact_button_send: {en: "SEND", es: "ENVIAR"},
-                our_brand: {en: 'Developed by Codeme - copyright 2020', es: 'Desarrollado por Codeme - copyright 2020'},
-                link_from_navbar: {en: 'MY COLLECTION', es: 'MI COLECCIÓN'},
+                navbar_title_home: { en: 'HOME', es: 'INICIO' },
+                navbar_title_tarde_exchange: { en: 'TRADE & EXCHANGE', es: 'INTERCAMBIO' },
+                navbar_title_categories: { en: 'CATEGORIES', es: 'CATEGORÍAS' },
+                navbar_all: { en: "ALL", es: "TODAS" },
+                navbar_title_contact: { en: 'CONTACT', es: 'CONTACTO' },
+                home_page_collection_title: { en: 'COLLECTION', es: 'COLECCIÓN' },
+                home_button_see_all: { en: 'SEE ALL', es: 'VER TODO' },
+                home_page_exchange_title: { en: 'EXCHANGE', es: 'INTERCAMBIO' },
+                home_contact_me_first_h1: { en: 'CONTACT ME', es: 'CONTÁCTAME' },
+                home_contact_me_h2: { en: 'IF YOU HAVE SOME QUESTIONS ABOUT MY MINIATURE BOTTLE', es: 'SI TIENE CONSULTAS SOBRE MI COLECCIÓN DE BOTELLAS ' },
+                home_contact_me_second_h1: { en: 'COLLECTION', es: 'EN MINIATURA' },
+                home_contact_name: { en: "Name", es: "Nombre" },
+                home_contact_phone: { en: "Telephone", es: "Teléfono" },
+                home_contact_email: { en: "Email", es: "Email" },
+                home_contact_message: { en: "Message", es: "Mensaje" },
+                home_contact_button_send: { en: "SEND", es: "ENVIAR" },
+                our_brand: { en: 'Developed by Codeme - copyright 2020', es: 'Desarrollado por Codeme - copyright 2020' },
+                link_from_navbar: { en: 'MY COLLECTION', es: 'MI COLECCIÓN' },
+                sweet_alert: { en: "Message sent", es: "Mensaje enviado" },
             }
         },
         actions: {
@@ -48,9 +53,23 @@ const getState = ({ getStore, getActions, setStore }) => {
                 setStore({
                     ln_selection: condition
                 })
+                sessionStorage.setItem("ln_selection", JSON.stringify(condition))
+            },
+            isSelectedLanguage: () => {
+                (sessionStorage.getItem('ln_selection') &&
+                    setStore({
+                        ln_selection: JSON.parse(sessionStorage.getItem('ln_selection'))
+                    })
+                )
             },
             handleChange: e => {
-                setStore({ [e.target.name]: e.target.value })
+                if(e.target.name === "country" || e.target.name === "country_esp"){
+                    let string = e.target.value  
+                    setStore({ [e.target.name]: string.toUpperCase() })
+                }else{
+                    setStore({ [e.target.name]: e.target.value })  
+                }
+              
             },
             handleRoute: (route, object) => {
                 sessionStorage.setItem('route', route)
@@ -63,32 +82,43 @@ const getState = ({ getStore, getActions, setStore }) => {
                     currentCategory: JSON.parse(sessionStorage.getItem('currentCategory'))
                 })
             },
-            create: (array, name) => {
+            create_en: (array, name_en, name_es) => {
                 let images = []
+                let images_es = []
                 array.length > 0 &&
                     array.map((bottles, i) => {
-                        let country = []
-                        bottles.country.split(',').map(c => {
-                            let b = {
-                                value: c,
-                                title: c
-                            }
-                            country.push(b)
-                            return null
-                        })
-                        let a = {
+                        let es = {
                             src: bottles.image,
                             thumbnail: bottles.image,
-                            thumbnailWidth: 120,
-                            thumbnailHeight: 120,
+                            thumbnailWidth: 400,
+                            thumbnailHeight: 400,
+                            caption: bottles.country_esp,
+
+                            tags: [{
+                                value: bottles.country_esp,
+                                title: bottles.country_esp
+                            }]
+                        }
+                        let en = {
+                            src: bottles.image,
+                            thumbnail: bottles.image,
+                            thumbnailWidth: 400,
+                            thumbnailHeight: 400,
                             caption: bottles.country,
 
-                            tags: country
+                            tags: [{
+                                value: bottles.country,
+                                title: bottles.country,
+                            }]
                         }
-                        images.push(a)
-                        return null
+                        images.push(en)
+                        images_es.push(es)
+                        return ''
                     })
-                setStore({ [name]: images })
+                setStore({ 
+                    [name_en]: images,
+                    [name_es]: images_es,
+                })
             },
             //Authentication Fetch Methods///////////////////////////////////////
             noAuth: (route) => {
@@ -126,7 +156,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 const data = await res.json()
                 if (data.error) {
                     setStore({ error: data.error })
-                    setTimeout(() => { setStore({ error: "" }) }, 2000)
+                    setTimeout(() => { setStore({ error: "" }) }, 1000)
                 } else {
                     setStore({
                         isAuth: true,
@@ -156,7 +186,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
             //Bottles Fetch Methods//////////////////////////
             GETBottlesExchange: async route => {
-
                 const store = getStore()
                 const res = await fetch(`${store.path}${route}`)
                 const data = await res.json()
@@ -164,10 +193,10 @@ const getState = ({ getStore, getActions, setStore }) => {
                     setStore({ error: data.error })
                 } else {
                     setStore({ exchange: data, error: "" })
-                    getActions().create(store.exchange, 'imagesExchange')
+                    getActions().create_en(data, 'imagesExchange', 'imagesExchange_es')
                 }
             },
-            GETBottlesUpdate: async (route) => {
+            /* GETBottlesUpdate: async (route) => {
                 const store = getStore()
                 const res = await fetch(`${store.path}${route}`)
                 const data = await res.json()
@@ -180,7 +209,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             PUTBottleUpdate: async (id, route) => {
                 const store = getStore()
                 const oldroute = route
-                const newroute = oldroute.replace('http://localhost:5000', 'https://bottlecollection.herokuapp.com')
+                const newroute = oldroute.replace('https://bottlecollection.herokuapp.com', 'https://codeme.pythonanywhere.com')
                 console.log(newroute)
                 const res = await fetch(`${store.path}/bottles/${id}`, {
                     method: 'PUT',
@@ -194,7 +223,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 })
                 const data = await res.json()
                 console.log(data)
-            },
+            }, */
             GETBottles: async (route, object) => {
                 const store = getStore()
                 const res = await fetch(`${store.path}${route}`)
@@ -203,12 +232,11 @@ const getState = ({ getStore, getActions, setStore }) => {
                     setStore({ error: data.error })
                 } else {
                     setStore({ bottles: data, error: "" })
+                    getActions().create_en(data, 'images', 'images_es')
                     object ? setStore({ currentCategory: object }) : setStore({ currentCategory: {} })
-                    getActions().create(store.bottles, 'images')
                 }
             },
             POSTBottle: async (route, img) => {
-                await getActions().POSTFile('/file')
                 const store = getStore()
                 const res = await fetch(`${store.path}${route}`, {
                     method: 'POST',
@@ -228,6 +256,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     setStore({
                         error: data.error,
                     })
+
                     console.log(data.error)
 
                 } else {
@@ -237,10 +266,10 @@ const getState = ({ getStore, getActions, setStore }) => {
                     document.getElementById("file").value = ''
                     setStore({
                         country: "",
-                        country_esp: ""
-
+                        country_esp: "",
+                        post_bottle_msg: "Bottle created successfully"
                     })
-
+                    setTimeout(() => { setStore({ post_bottle_msg: "" }) }, 2000)
                 }
             },
             DELETEBottle: async (route) => {
@@ -272,12 +301,24 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: 'POST',
                     body: data
                 })
-                await res.json()
+                let dato = await res.json()
+                if (dato.error) {
+                    setStore({ post_bottle_msg: dato.error })
+                    setTimeout(() => { setStore({ 
+                        post_bottle_msg: "", 
+                    }) }, 2000)
+                    document.getElementById("country").value = ''
+                    document.getElementById("country_esp").value = ''
+                    document.getElementById("file").value = ''
+                } else {
+                    getActions().POSTBottle('/bottles', '/file/')
+                }
             },
             DELETEfile: async (route) => {
                 const store = getStore()
                 let newroute = route
-                let correctroute = newroute.replace('https://bottlecollection.herokuapp.com/file/', '/')
+                console.log(newroute)
+                let correctroute = newroute.replace(`${store.path}/file/`, '')
                 console.log(correctroute)
                 const res = await fetch(`${store.path}${correctroute}`, {
                     method: 'DELETE',

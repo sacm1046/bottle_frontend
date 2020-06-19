@@ -1,51 +1,41 @@
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import { Context } from '../store/appContext'
 import { confirmAlert } from 'react-confirm-alert'
 
 const AciveAdmin = props => {
     const { store, actions } = useContext(Context)
-    
+    const [ image, setImage ] = useState('')
+    const handleChange = e => {
+        let img = document.getElementById(e.target.id)
+        setImage(img.value)
+    }
     useEffect(() => {
         actions.isAuthenticated()
         if (!store.isAuth) {
             actions.noAuth('/admin')
         } else {
             actions.GETBottles('/bottles/category/1/0')
-            actions.GETCategories('/categories')
-            actions.GETBottlesUpdate('/bottles/category/1/1')
+            actions.GETCategories('/categories/0')
         }
     }, [actions, store.isAuth])
 
     return (
         <>
             <div className="container">
-                <div className="d-flex justify-content-end">
-                    <div className="dropdown">
-                        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Categories</button>
-                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a className="dropdown-item" onClick={() => actions.GETBottles('/bottles/category/1/0')} href="#">All</a>
-                            {
-                                store.categories.length > 0 && store.categories.map((category) => (
-                                    <a key={category.id} onClick={() => actions.GETBottles(`/bottles/category/${category.id}/1`, category)} className="dropdown-item" href="#">{category.name}</a>
-                                ))
-                            }
-                        </div>
-                    </div>
-                    <button className="btn btn-info" onClick={() => actions.logout()}>LOGOUT
-                </button>
-                </div>
 
 
-                <div className={`row ${JSON.stringify(store.currentCategory) === '{}' && 'hide'}`}>
-                    <div className="col-md-6">
+
+                <div className="row mt-3">
+                    <div className={`col-md-6 ${JSON.stringify(store.currentCategory) !== '{}' && 'd-none'}`}></div>
+                    <div className={`col-md-6 ${JSON.stringify(store.currentCategory) === '{}' && 'd-none'}`}>
                         <h2>Create Collection</h2>
+                        <div style={{ color: "green", position: "absolute", top: "257px", left: "100px" }}>{store.post_bottle_msg && store.post_bottle_msg}</div>
                         <div>
-   
                             <form>
-                                <div className="form-group">
-                                    <label htmlFor="file">Example file input</label>
-                                    <input type="file" id="file" className="form-control-file" />
+                                <div className="form-group d-flex">
+                                    <label htmlFor="file" className="btn btn-success">Select your photography here</label>
+                                    <div className='ml-3 align-self-center'>{image&&image}</div>
+                                    <input type="file" id="file" className="d-none" onChange={e=>handleChange(e)}/>
                                 </div>
                             </form>
 
@@ -87,16 +77,37 @@ const AciveAdmin = props => {
                                             }
                                         })
                                     } else {
-                                        actions.POSTBottle('/bottles', '/file/')
+                                        actions.POSTFile('/file')
+                                        setImage('')
                                     }
                                 }
                             }
                             }>Submit</button>
                         </div>
+                        <hr className="d-md-none" />
                     </div>
+
+                    <div className="col-md-6">
+                        <div className=" d-flex justify-content-around">
+                            <div className="dropdown">
+                                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    CATEGORIES </button>
+                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a className="dropdown-item" onClick={() => actions.GETBottles('/bottles/category/1/0')} href="#">ALL</a>
+                                    {
+                                        store.categories.length > 0 && store.categories.map((category) => (
+                                            <a key={category.id} onClick={() => actions.GETBottles(`/bottles/category/${category.id}/1`, category)} className="dropdown-item" href="#">{category.name}</a>
+                                        ))
+                                    }
+                                </div>
+                            </div>
+                            <button className="btn btn-info" onClick={() => actions.logout()}>LOGOUT</button>
+                        </div>
+
+                    </div>
+
                 </div>
-
-
+                <hr />
                 <div className="row justify-content-center">
                     <h3>{JSON.stringify(store.currentCategory) === '{}' ? "ALL" : store.currentCategory.name}</h3>
                 </div>
@@ -148,20 +159,6 @@ const AciveAdmin = props => {
                     </div>
                 </div>
             </div>
-          {/*   <div>
-                <ul>
-                    {
-                        store.bottlesupadate.length > 0 && store.bottlesupadate.map((bottle) => {
-                            return (
-                                <>
-                                    <li>{bottle.image}</li>
-                                    <button onClick={() => actions.PUTBottleUpdate(bottle.id, bottle.image)}>Update</button>
-                                </>
-                            )
-
-                        })}
-                </ul>
-            </div> */}
         </>
     )
 }
